@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -6,8 +7,8 @@
   <meta name="theme-color" content="#1e293b">
   <title>Dashboard de Vendas - Gerenciamento de Vendas</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
   <style>
+    :root {
     :root {
       --color-bg-dark: #0f172a;
       --color-bg-dark-2: #1e293b;
@@ -23,6 +24,10 @@
       --color-danger: #ef4444;
       --color-danger-dark: #dc2626;
       --color-danger-darker: #b91c1c;
+      --color-success: #10b981;
+      --color-success-dark: #059669;
+      --color-warning: #f59e0b;
+      --color-warning-dark: #d97706;
       --color-border-dark: #334155;
       --color-border-light: #cbd5e1;
       --color-input-bg-dark: rgba(15, 23, 42, 0.7);
@@ -39,46 +44,54 @@
       --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.4);
       --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
       --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.1);
+      --transition-fast: 0.2s ease;
+      --transition-base: 0.3s ease;
+      --transition-slow: 0.4s ease;
     }
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    html, body {
-      height: 100%;
-      font-family: 'Inter', sans-serif;
-    }
     body {
       background: linear-gradient(135deg, var(--color-bg-dark), var(--color-bg-dark-2));
       color: var(--color-text-dark);
       padding: var(--spacing-xl);
-      transition: background 0.4s, color 0.4s;
+      transition: background var(--transition-slow), color var(--transition-slow);
     }
+
     body.light {
       background: linear-gradient(135deg, var(--color-bg-light), var(--color-bg-light-2));
       color: var(--color-text-light);
+    } transition: background 0.4s, color 0.4s;
     }
     header {
       display: flex;
-      justify-content: space-between;
+      transition: background var(--transition-fast);
       align-items: center;
       padding: var(--spacing-lg) var(--spacing-xl);
       border-radius: var(--radius-lg);
       background: rgba(30, 41, 59, 0.8);
       backdrop-filter: blur(10px);
       box-shadow: var(--shadow-sm);
+        table {
+          font-size: 0.85rem;
+          overflow-x: hidden; /* Added to remove overflow-x */
+        }
       margin-bottom: var(--spacing-2xl);
-      transition: background 0.4s, box-shadow 0.4s;
+      transition: background var(--transition-slow), box-shadow var(--transition-slow);
     }
+
     body.light header {
       background: rgba(255, 255, 255, 0.8);
       box-shadow: var(--shadow-light);
     }
+
     header h1 {
       font-size: 2rem;
       font-weight: 700;
     }
+
     button {
       background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
       border: none;
@@ -88,29 +101,77 @@
       cursor: pointer;
       font-size: 0.95rem;
       font-weight: 600;
-      transition: background 0.3s, box-shadow 0.2s;
+      transition: background var(--transition-base), box-shadow var(--transition-fast);
+      min-height: 44px;
+      min-width: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
+
     button:hover {
       background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary-darker));
       box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
     }
+
+    @media (max-width: 640px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+
+      tr {
+        margin-bottom: var(--spacing-xl);
+        border: 1px solid var(--color-border-dark);
+        border-radius: var(--radius-md);
+        padding: var(--spacing-md);
+      }
+
+      body.light tr {
+        border: 1px solid var(--color-border-light);
+      }
+
+      td {
+        padding-left: 50%;
+        position: relative;
+        margin-bottom: var(--spacing-sm);
+      }
+
+      td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: var(--spacing-md);
+        font-weight: 600;
+        text-transform: capitalize;
+        color: var(--color-text-dark-sec);
+      }
+
+      body.light td:before {
+        color: var(--color-text-light-sec);
+      }
+    }
+
     button:focus-visible {
       outline: 2px solid var(--color-primary);
       outline-offset: 2px;
     }
-    button.action {
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    button.button--danger {
       background: linear-gradient(135deg, var(--color-danger), var(--color-danger-dark));
       font-size: 0.8rem;
       padding: var(--spacing-xs) 14px;
     }
-    button.action:hover {
-      background: linear-gradient(135deg, var(--color-danger-dark), var(--color-danger-darker));
-      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
-    }
-    main {
-      display: grid;
-      gap: var(--spacing-xl);
-    }
+
     .summary {
       display: flex;
       justify-content: space-between;
@@ -120,16 +181,19 @@
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-md);
       text-align: center;
-      transition: background 0.4s;
+      transition: background var(--transition-slow);
     }
+
     body.light .summary {
       background: rgba(255, 255, 255, 0.85);
       box-shadow: var(--shadow-light);
     }
-    .summary > div {
+
+    .summary__item {
       flex: 1;
       font-size: 1.1rem;
       font-weight: 600;
+    } box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
     }
     section {
       background: rgba(30, 41, 59, 0.85);
@@ -137,25 +201,81 @@
       padding: var(--spacing-xl);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-sm);
-      transition: background 0.4s;
+      transition: background var(--transition-slow);
     }
+
     body.light section {
       background: rgba(255, 255, 255, 0.85);
     }
-    h2 {
+
+    section__title {
       font-size: 1.4rem;
       margin-bottom: var(--spacing-lg);
       color: #60a5fa;
     }
-    body.light h2 {
+
+    body.light section__title {
       color: var(--color-text-light-sec);
     }
+
     label {
       display: block;
       margin-bottom: var(--spacing-sm);
       font-weight: 500;
       font-size: 0.95rem;
     }
+
+    .form__group {
+      margin-bottom: var(--spacing-md);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: var(--spacing-sm) 0;
+      border: 1px solid var(--color-border-dark);
+      border-radius: var(--radius-md);
+      font-size: 1rem;
+      background: var(--color-input-bg-dark);
+      color: var(--color-text-dark);
+      transition: border var(--transition-base), background var(--transition-base);
+      min-height: 44px;
+    }
+
+    input:focus-visible, select:focus-visible {
+      border-color: var(--color-primary);
+      outline: 2px solid var(--color-primary);
+      outline-offset: -1px;
+    }
+
+    input:invalid:not(:placeholder-shown) {
+      border-color: var(--color-danger);
+    }
+
+    input:valid:not(:placeholder-shown),
+    input[type="date"],
+    input[type="number"] {
+      border-color: var(--color-success);
+    }
+
+    body.light input, body.light select {
+      background: var(--color-input-bg-light);
+      color: var(--color-text-light);
+      border: 1px solid var(--color-border-light);
+    }
+
+    .input__error {
+      display: block;
+      color: var(--color-danger);
+      font-size: 0.85rem;
+      margin-top: var(--spacing-xs);
+    }abel {
+      display: block;
+      margin-bottom: var(--spacing-sm);
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
     input, select {
       width: 100%;
       padding: 10px;
@@ -167,21 +287,25 @@
       color: var(--color-text-dark);
       transition: border 0.3s, background 0.3s;
     }
+
     input:focus-visible, select:focus-visible {
       border-color: var(--color-primary);
       outline: 2px solid var(--color-primary);
       outline-offset: -1px;
     }
+
     body.light input, body.light select {
       background: var(--color-input-bg-light);
       color: var(--color-text-light);
       border: 1px solid var(--color-border-light);
     }
+
     ul {
       list-style: none;
       padding: 0;
       margin: var(--spacing-md) 0 0;
     }
+
     li {
       display: flex;
       justify-content: space-between;
@@ -193,15 +317,19 @@
       font-size: 0.95rem;
       transition: background 0.2s;
     }
+
     li:hover {
       background: rgba(30, 41, 59, 0.9);
     }
+
     body.light li {
       background: rgba(241, 245, 259, 0.9);
     }
+
     body.light li:hover {
       background: rgba(226, 232, 240, 0.95);
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -209,36 +337,44 @@
       font-size: 0.95rem;
       overflow-x: auto;
     }
+
     thead {
       background: rgba(30, 41, 59, 0.9);
     }
+
     th, td {
       padding: var(--spacing-md);
       text-align: left;
       border-bottom: 1px solid var(--color-border-dark);
     }
+
     th {
       color: var(--color-text-dark-sec);
       font-weight: 600;
     }
+
     body.light th {
       background: rgba(226, 232, 240, 0.9);
       color: var(--color-text-light);
     }
+
     .charts {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: var(--spacing-xl);
     }
+
     canvas {
       background: rgba(15, 23, 42, 0.85);
       padding: 10px;
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-sm);
     }
+
     body.light canvas {
       background: rgba(255, 255, 255, 0.85);
     }
+
     .visually-hidden {
       position: absolute;
       width: 1px;
@@ -250,19 +386,23 @@
       white-space: nowrap;
       border-width: 0;
     }
+
     @media (max-width: 768px) {
       header {
         flex-direction: column;
         align-items: flex-start;
         gap: var(--spacing-md);
       }
+
       .summary {
         flex-direction: column;
         gap: var(--spacing-md);
       }
+
       table {
         font-size: 0.85rem;
       }
+
       th, td {
         padding: var(--spacing-sm);
       }
@@ -280,13 +420,14 @@
 
   <main>
     <div class="summary" role="status" aria-live="polite">
-      <div>
+      <div class="summary__item">
         <strong>Total de Vendas:</strong> R$ <span id="totalSales" aria-label="Total de vendas">0.00</span>
       </div>
-      <div>
+      <div class="summary__item">
         <strong>Usuários Cadastrados:</strong> <span id="totalUsers" aria-label="Quantidade de usuários">0</span>
       </div>
     </div>
+
     <section aria-labelledby="manageUsersTitle">
       <h2 id="manageUsersTitle">Gerenciar Usuários</h2>
       <div>
@@ -297,6 +438,7 @@
       <button id="addUserBtn">Adicionar Usuário</button>
       <ul id="userList" role="list" aria-label="Lista de usuários cadastrados"></ul>
     </section>
+
     <section aria-labelledby="registerSaleTitle">
       <h2 id="registerSaleTitle">Registrar Venda</h2>
       <fieldset>
@@ -321,6 +463,7 @@
       </fieldset>
       <button id="addSaleBtn">Adicionar Venda</button>
     </section>
+
     <section aria-labelledby="filterSalesTitle">
       <h2 id="filterSalesTitle">Filtrar Vendas</h2>
       <fieldset>
@@ -344,6 +487,7 @@
         </div>
       </fieldset>
     </section>
+
     <section aria-labelledby="salesTableTitle">
       <h2 id="salesTableTitle">Vendas Registradas</h2>
       <table id="salesTable" role="grid" aria-label="Tabela de vendas registradas">
@@ -358,6 +502,7 @@
         <tbody></tbody>
       </table>
     </section>
+
     <div class="charts" role="region" aria-label="Gráficos analíticos">
       <div>
         <canvas id="salesChart" role="img" aria-label="Gráfico de linha com vendas por transação"></canvas>
@@ -367,7 +512,133 @@
       </div>
     </div>
   </main>
+
   <script defer>
+    /* ===== MODAL COMPONENT ===== */
+    class AccessibleModal {
+      constructor(options = {}) {
+        this.title = options.title || 'Confirmação';
+        this.message = options.message || '';
+        this.onConfirm = options.onConfirm || (() => {});
+        this.onCancel = options.onCancel || (() => {});
+        this.modal = null;
+      }
+
+      show() {
+        this.modal = document.createElement('div');
+        this.modal.setAttribute('role', 'alertdialog');
+        this.modal.setAttribute('aria-modal', 'true');
+        this.modal.setAttribute('aria-labelledby', 'modal-title');
+        this.modal.setAttribute('aria-describedby', 'modal-message');
+        this.modal.style.cssText = `
+          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(0,0,0,0.5); display: flex; align-items: center;
+          justify-content: center; z-index: 1000; padding: var(--spacing-lg);
+        `;
+
+        const content = document.createElement('div');
+        content.style.cssText = `
+          background: var(--color-bg-dark-2); color: var(--color-text-dark);
+          padding: var(--spacing-xl); border-radius: var(--radius-lg);
+          max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        `;
+        document.body.classList.contains('light') && (content.style.background = 'var(--color-bg-light-2)', content.style.color = 'var(--color-text-light)');
+
+        content.innerHTML = `
+          <h3 id="modal-title" style="margin-bottom: var(--spacing-md); font-size: 1.2rem;">${this.title}</h3>
+          <p id="modal-message" style="margin-bottom: var(--spacing-xl); line-height: 1.6;">${this.message}</p>
+          <div style="display: flex; gap: var(--spacing-md); justify-content: flex-end;">
+            <button id="modal-cancel" class="button" style="background: linear-gradient(135deg, var(--color-border-dark), var(--color-border-dark));">Cancelar</button>
+            <button id="modal-confirm" class="button button--danger">Confirmar</button>
+          </div>
+        `;
+
+        this.modal.appendChild(content);
+        document.body.appendChild(this.modal);
+
+        const confirmBtn = this.modal.querySelector('#modal-confirm');
+        const cancelBtn = this.modal.querySelector('#modal-cancel');
+
+        confirmBtn.addEventListener('click', () => this.handleConfirm());
+        cancelBtn.addEventListener('click', () => this.handleCancel());
+        this.modal.addEventListener('click', (e) => e.target === this.modal && this.handleCancel());
+
+        confirmBtn.focus();
+      }
+
+      handleConfirm() {
+        this.onConfirm();
+        this.close();
+      }
+
+      handleCancel() {
+        this.onCancel();
+        this.close();
+      }
+
+      close() {
+        if (this.modal) {
+          this.modal.remove();
+          this.modal = null;
+        }
+      }
+    }
+
+    /* ===== TOAST NOTIFICATION SYSTEM ===== */
+    class Toast {
+      static create(message, type = 'info', duration = 3000) {
+        const toast = document.createElement('div');
+        toast.setAttribute('role', 'status');
+        toast.setAttribute('aria-live', 'polite');
+        toast.setAttribute('aria-atomic', 'true');
+
+        const bgColor = {
+          success: 'var(--color-success)',
+          error: 'var(--color-danger)',
+          warning: 'var(--color-warning)',
+          info: 'var(--color-primary)'
+        }[type] || 'var(--color-primary)';
+
+        toast.style.cssText = `
+          position: fixed; bottom: var(--spacing-xl); right: var(--spacing-xl);
+          background: ${bgColor}; color: white; padding: var(--spacing-md) var(--spacing-lg);
+          border-radius: var(--radius-md); box-shadow: var(--shadow-md);
+          animation: slideIn 0.3s ease; z-index: 999; max-width: 300px;
+          word-wrap: break-word;
+        `;
+        toast.textContent = message;
+
+        if (!document.getElementById('toast-style')) {
+          const style = document.createElement('style');
+          style.id = 'toast-style';
+          style.textContent = `
+            @keyframes slideIn {
+              from { transform: translateX(400px); opacity: 0; }
+              to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+              from { transform: translateX(0); opacity: 1; }
+              to { transform: translateX(400px); opacity: 0; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.animation = 'slideOut 0.3s ease forwards';
+          setTimeout(() => toast.remove(), 300);
+        }, duration);
+      }
+
+      static success(message) { this.create(message, 'success'); }
+      static error(message) { this.create(message, 'error'); }
+      static warning(message) { this.create(message, 'warning'); }
+      static info(message) { this.create(message, 'info'); }
+    }
+
+    /* ===== MAIN APP ===== */
     const DashboardApp = (() => {
       const DOM = {
         userNameInput: () => document.getElementById('userName'),
@@ -429,17 +700,18 @@
       const Users = {
         add(name) {
           const sanitized = Sanitize.text(name);
-          if (!sanitized || sanitized.length < 2) {
-            alert('Digite um nome válido com pelo menos 2 caracteres.');
+          if (!Sanitize.isValidName(sanitized)) {
+            Toast.error('Nome inválido. Use 2-100 caracteres.');
             return false;
           }
           if (users.includes(sanitized)) {
-            alert('Este usuário já existe.');
+            Toast.warning('Este usuário já existe.');
             return false;
           }
           users.push(sanitized);
           Storage.save();
           this.render();
+          Toast.success(`Usuário "${sanitized}" adicionado!`);
           return true;
         },
         delete(index) {
@@ -504,10 +776,19 @@
         },
         delete(index) {
           if (index < 0 || index >= sales.length) return;
-          if (!confirm('Deseja excluir esta venda?')) return;
-          sales.splice(index, 1);
-          Storage.save();
-          this.render();
+          const sale = sales[index];
+          const modal = new AccessibleModal({
+            title: 'Confirmar exclusão de venda',
+            message: `Deseja realmente excluir a venda de R$ ${sale.value.toFixed(2)} do usuário ${sale.user}?`,
+            onConfirm: () => {
+              sales.splice(index, 1);
+              Storage.save();
+              this.render();
+              Toast.success('Venda excluída com sucesso.');
+            },
+            onCancel: () => Toast.info('Exclusão cancelada.')
+          });
+          modal.show();
         },
         filter() {
           const filterUserVal = DOM.filterUser.value;
@@ -533,20 +814,24 @@
 
             const userCell = document.createElement('td');
             userCell.textContent = sale.user;
+            userCell.setAttribute('data-label', 'Usuário');
             userCell.setAttribute('role', 'gridcell');
 
             const valueCell = document.createElement('td');
             valueCell.textContent = `R$ ${sale.value.toFixed(2)}`;
+            valueCell.setAttribute('data-label', 'Valor (R$)');
             valueCell.setAttribute('role', 'gridcell');
 
             const dateCell = document.createElement('td');
             dateCell.textContent = sale.date;
+            dateCell.setAttribute('data-label', 'Data');
             dateCell.setAttribute('role', 'gridcell');
 
             const actionCell = document.createElement('td');
             actionCell.setAttribute('role', 'gridcell');
+            actionCell.setAttribute('data-label', 'Ações');
             const btn = document.createElement('button');
-            btn.className = 'action';
+            btn.className = 'button button--danger';
             btn.textContent = 'Excluir';
             btn.setAttribute('aria-label', `Excluir venda de ${sale.value.toFixed(2)} reais`);
             btn.addEventListener('click', () => Sales.delete(index));
@@ -565,8 +850,22 @@
       };
 
       const Charts = {
+        async loadChartJS() {
+          return new Promise((resolve) => {
+            if (window.Chart) return resolve();
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+            script.onload = () => resolve();
+            document.head.appendChild(script);
+          });
+        },
         init() {
-          const ctxLine = document.getElementById('salesChart').getContext('2d');
+          this.loadChartJS().then(() => this._initCharts());
+        },
+        _initCharts() {
+          const ctxLineEl = document.getElementById('salesChart');
+          if (!ctxLineEl) return;
+          const ctxLine = ctxLineEl.getContext('2d');
           salesChart = new Chart(ctxLine, {
             type: 'line',
             data: {
@@ -574,23 +873,25 @@
               datasets: [{
                 label: 'Vendas (R$)',
                 data: [],
-                borderColor: '#3b82f6',
+                borderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() || '#3b82f6',
                 fill: true,
-                backgroundColor: 'rgba(59,130,246,0.2)',
+                backgroundColor: 'rgba(59,130,246,0.12)',
                 tension: 0.4
               }]
             },
             options: {
               responsive: true,
-              plugins: { legend: { labels: { color: '#fff' } } },
+              plugins: { legend: { labels: { color: getComputedStyle(document.documentElement).getPropertyValue('--color-text-dark').trim() || '#fff' } } },
               scales: {
-                x: { ticks: { color: '#fff' } },
-                y: { ticks: { color: '#fff' } }
+                x: { ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--color-text-dark').trim() || '#fff' } },
+                y: { ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--color-text-dark').trim() || '#fff' } }
               }
             }
           });
 
-          const ctxPie = document.getElementById('userPieChart').getContext('2d');
+          const ctxPieEl = document.getElementById('userPieChart');
+          if (!ctxPieEl) return;
+          const ctxPie = ctxPieEl.getContext('2d');
           userPieChart = new Chart(ctxPie, {
             type: 'pie',
             data: {
@@ -602,7 +903,7 @@
             },
             options: {
               responsive: true,
-              plugins: { legend: { labels: { color: '#fff' } } }
+              plugins: { legend: { labels: { color: getComputedStyle(document.documentElement).getPropertyValue('--color-text-dark').trim() || '#fff' } } }
             }
           });
         },
@@ -625,15 +926,15 @@
           }
         },
         updateTheme(isDark) {
-          const color = isDark ? '#fff' : '#222';
+          const legendColor = isDark ? getComputedStyle(document.documentElement).getPropertyValue('--color-text-dark').trim() : getComputedStyle(document.documentElement).getPropertyValue('--color-text-light').trim();
           if (salesChart) {
-            salesChart.options.plugins.legend.labels.color = color;
-            salesChart.options.scales.x.ticks.color = color;
-            salesChart.options.scales.y.ticks.color = color;
+            salesChart.options.plugins.legend.labels.color = legendColor;
+            if (salesChart.options.scales && salesChart.options.scales.x) salesChart.options.scales.x.ticks.color = legendColor;
+            if (salesChart.options.scales && salesChart.options.scales.y) salesChart.options.scales.y.ticks.color = legendColor;
             salesChart.update();
           }
           if (userPieChart) {
-            userPieChart.options.plugins.legend.labels.color = color;
+            userPieChart.options.plugins.legend.labels.color = legendColor;
             userPieChart.update();
           }
         }
@@ -675,35 +976,35 @@
 
       function bindEvents() {
         DOM.addUserBtn.addEventListener('click', () => {
-          const val = DOM.userNameInput().value;
+          const val = DOM.getUserNameInput().value;
           if (Users.add(val)) {
-            DOM.userNameInput().value = '';
-            DOM.userNameInput().focus();
+            DOM.getUserNameInput().value = '';
+            DOM.getUserNameInput().focus();
           }
         });
 
-        DOM.userNameInput().addEventListener('keypress', (e) => {
+        DOM.getUserNameInput().addEventListener('keypress', (e) => {
           if (e.key === 'Enter') DOM.addUserBtn.click();
         });
 
         DOM.addSaleBtn.addEventListener('click', () => {
           const userIdx = DOM.userSelect.value;
-          const amount = DOM.saleAmountInput().value;
-          const date = DOM.saleDateInput().value;
+          const amount = DOM.getSaleAmountInput().value;
+          const date = DOM.getSaleDateInput().value;
           if (Sales.add(userIdx, amount, date)) {
-            DOM.saleAmountInput().value = '';
-            DOM.saleDateInput().value = '';
+            DOM.getSaleAmountInput().value = '';
+            DOM.getSaleDateInput().value = '';
             DOM.userSelect.focus();
           }
         });
 
-        DOM.saleAmountInput().addEventListener('keypress', (e) => {
+        DOM.getSaleAmountInput().addEventListener('keypress', (e) => {
           if (e.key === 'Enter') DOM.addSaleBtn.click();
         });
 
         DOM.filterUser.addEventListener('change', () => Sales.render());
-        DOM.filterStart().addEventListener('change', () => Sales.render());
-        DOM.filterEnd().addEventListener('change', () => Sales.render());
+        DOM.getFilterStart().addEventListener('change', () => Sales.render());
+        DOM.getFilterEnd().addEventListener('change', () => Sales.render());
 
         DOM.exportBtn.addEventListener('click', () => Export.csv());
         DOM.toggleThemeBtn.addEventListener('click', () => Theme.toggle());
@@ -721,6 +1022,12 @@
       };
     })();
 
+    document.addEventListener('DOMContentLoaded', () => {
+      DashboardApp.init();
+    });
+  </script>
+</body>
+</html>
     document.addEventListener('DOMContentLoaded', () => {
       DashboardApp.init();
     });
