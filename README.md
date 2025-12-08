@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -59,7 +58,6 @@
       padding: var(--spacing-xl);
       transition: background var(--transition-slow), color var(--transition-slow);
     }
-
     body.light {
       background: linear-gradient(135deg, var(--color-bg-light), var(--color-bg-light-2));
       color: var(--color-text-light);
@@ -81,17 +79,14 @@
       margin-bottom: var(--spacing-2xl);
       transition: background var(--transition-slow), box-shadow var(--transition-slow);
     }
-
     body.light header {
       background: rgba(255, 255, 255, 0.8);
       box-shadow: var(--shadow-light);
     }
-
     header h1 {
       font-size: 2rem;
       font-weight: 700;
     }
-
     button {
       background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
       border: none;
@@ -108,40 +103,33 @@
       align-items: center;
       justify-content: center;
     }
-
     button:hover {
       background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary-darker));
       box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
     }
-
     @media (max-width: 640px) {
       table, thead, tbody, th, td, tr {
         display: block;
       }
-
       thead tr {
         position: absolute;
         top: -9999px;
         left: -9999px;
       }
-
       tr {
         margin-bottom: var(--spacing-xl);
         border: 1px solid var(--color-border-dark);
         border-radius: var(--radius-md);
         padding: var(--spacing-md);
       }
-
       body.light tr {
         border: 1px solid var(--color-border-light);
       }
-
       td {
         padding-left: 50%;
         position: relative;
         margin-bottom: var(--spacing-sm);
       }
-
       td:before {
         content: attr(data-label);
         position: absolute;
@@ -150,28 +138,23 @@
         text-transform: capitalize;
         color: var(--color-text-dark-sec);
       }
-
       body.light td:before {
         color: var(--color-text-light-sec);
       }
     }
-
     button:focus-visible {
       outline: 2px solid var(--color-primary);
       outline-offset: 2px;
     }
-
     button:disabled {
       opacity: 0.5;
       cursor: not-allowed;
     }
-
     button.button--danger {
       background: linear-gradient(135deg, var(--color-danger), var(--color-danger-dark));
       font-size: 0.8rem;
       padding: var(--spacing-xs) 14px;
     }
-
     .summary {
       display: flex;
       justify-content: space-between;
@@ -183,12 +166,10 @@
       text-align: center;
       transition: background var(--transition-slow);
     }
-
     body.light .summary {
       background: rgba(255, 255, 255, 0.85);
       box-shadow: var(--shadow-light);
     }
-
     .summary__item {
       flex: 1;
       font-size: 1.1rem;
@@ -203,32 +184,26 @@
       box-shadow: var(--shadow-sm);
       transition: background var(--transition-slow);
     }
-
     body.light section {
       background: rgba(255, 255, 255, 0.85);
     }
-
     section__title {
       font-size: 1.4rem;
       margin-bottom: var(--spacing-lg);
       color: #60a5fa;
     }
-
     body.light section__title {
       color: var(--color-text-light-sec);
     }
-
     label {
       display: block;
       margin-bottom: var(--spacing-sm);
       font-weight: 500;
       font-size: 0.95rem;
     }
-
     .form__group {
       margin-bottom: var(--spacing-md);
     }
-
     input, select {
       width: 100%;
       padding: 10px;
@@ -241,29 +216,24 @@
       transition: border var(--transition-base), background var(--transition-base);
       min-height: 44px;
     }
-
     input:focus-visible, select:focus-visible {
       border-color: var(--color-primary);
       outline: 2px solid var(--color-primary);
       outline-offset: -1px;
     }
-
     input:invalid:not(:placeholder-shown) {
       border-color: var(--color-danger);
     }
-
     input:valid:not(:placeholder-shown),
     input[type="date"],
     input[type="number"] {
       border-color: var(--color-success);
     }
-
     body.light input, body.light select {
       background: var(--color-input-bg-light);
       color: var(--color-text-light);
       border: 1px solid var(--color-border-light);
     }
-
     .input__error {
       display: block;
       color: var(--color-danger);
@@ -275,7 +245,6 @@
       font-weight: 500;
       font-size: 0.95rem;
     }
-
     input, select {
       width: 100%;
       padding: 10px;
@@ -287,25 +256,21 @@
       color: var(--color-text-dark);
       transition: border 0.3s, background 0.3s;
     }
-
     input:focus-visible, select:focus-visible {
       border-color: var(--color-primary);
       outline: 2px solid var(--color-primary);
       outline-offset: -1px;
     }
-
     body.light input, body.light select {
       background: var(--color-input-bg-light);
       color: var(--color-text-light);
       border: 1px solid var(--color-border-light);
     }
-
     ul {
       list-style: none;
       padding: 0;
       margin: var(--spacing-md) 0 0;
     }
-
     li {
       display: flex;
       justify-content: space-between;
@@ -317,19 +282,15 @@
       font-size: 0.95rem;
       transition: background 0.2s;
     }
-
     li:hover {
       background: rgba(30, 41, 59, 0.9);
     }
-
     body.light li {
       background: rgba(241, 245, 259, 0.9);
     }
-
     body.light li:hover {
       background: rgba(226, 232, 240, 0.95);
     }
-
     table {
       width: 100%;
       border-collapse: collapse;
@@ -337,44 +298,36 @@
       font-size: 0.95rem;
       overflow-x: auto;
     }
-
     thead {
       background: rgba(30, 41, 59, 0.9);
     }
-
     th, td {
       padding: var(--spacing-md);
       text-align: left;
       border-bottom: 1px solid var(--color-border-dark);
     }
-
     th {
       color: var(--color-text-dark-sec);
       font-weight: 600;
     }
-
     body.light th {
       background: rgba(226, 232, 240, 0.9);
       color: var(--color-text-light);
     }
-
     .charts {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: var(--spacing-xl);
     }
-
     canvas {
       background: rgba(15, 23, 42, 0.85);
       padding: 10px;
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-sm);
     }
-
     body.light canvas {
       background: rgba(255, 255, 255, 0.85);
     }
-
     .visually-hidden {
       position: absolute;
       width: 1px;
@@ -386,23 +339,19 @@
       white-space: nowrap;
       border-width: 0;
     }
-
     @media (max-width: 768px) {
       header {
         flex-direction: column;
         align-items: flex-start;
         gap: var(--spacing-md);
       }
-
       .summary {
         flex-direction: column;
         gap: var(--spacing-md);
       }
-
       table {
         font-size: 0.85rem;
       }
-
       th, td {
         padding: var(--spacing-sm);
       }
@@ -427,7 +376,6 @@
         <strong>Usuários Cadastrados:</strong> <span id="totalUsers" aria-label="Quantidade de usuários">0</span>
       </div>
     </div>
-
     <section aria-labelledby="manageUsersTitle">
       <h2 id="manageUsersTitle">Gerenciar Usuários</h2>
       <div>
@@ -438,7 +386,6 @@
       <button id="addUserBtn">Adicionar Usuário</button>
       <ul id="userList" role="list" aria-label="Lista de usuários cadastrados"></ul>
     </section>
-
     <section aria-labelledby="registerSaleTitle">
       <h2 id="registerSaleTitle">Registrar Venda</h2>
       <fieldset>
@@ -463,7 +410,6 @@
       </fieldset>
       <button id="addSaleBtn">Adicionar Venda</button>
     </section>
-
     <section aria-labelledby="filterSalesTitle">
       <h2 id="filterSalesTitle">Filtrar Vendas</h2>
       <fieldset>
@@ -487,7 +433,6 @@
         </div>
       </fieldset>
     </section>
-
     <section aria-labelledby="salesTableTitle">
       <h2 id="salesTableTitle">Vendas Registradas</h2>
       <table id="salesTable" role="grid" aria-label="Tabela de vendas registradas">
@@ -502,7 +447,6 @@
         <tbody></tbody>
       </table>
     </section>
-
     <div class="charts" role="region" aria-label="Gráficos analíticos">
       <div>
         <canvas id="salesChart" role="img" aria-label="Gráfico de linha com vendas por transação"></canvas>
@@ -512,7 +456,6 @@
       </div>
     </div>
   </main>
-
   <script defer>
     /* ===== MODAL COMPONENT ===== */
     class AccessibleModal {
@@ -523,7 +466,6 @@
         this.onCancel = options.onCancel || (() => {});
         this.modal = null;
       }
-
       show() {
         this.modal = document.createElement('div');
         this.modal.setAttribute('role', 'alertdialog');
@@ -535,7 +477,6 @@
           background: rgba(0,0,0,0.5); display: flex; align-items: center;
           justify-content: center; z-index: 1000; padding: var(--spacing-lg);
         `;
-
         const content = document.createElement('div');
         content.style.cssText = `
           background: var(--color-bg-dark-2); color: var(--color-text-dark);
@@ -543,7 +484,6 @@
           max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         `;
         document.body.classList.contains('light') && (content.style.background = 'var(--color-bg-light-2)', content.style.color = 'var(--color-text-light)');
-
         content.innerHTML = `
           <h3 id="modal-title" style="margin-bottom: var(--spacing-md); font-size: 1.2rem;">${this.title}</h3>
           <p id="modal-message" style="margin-bottom: var(--spacing-xl); line-height: 1.6;">${this.message}</p>
@@ -552,30 +492,23 @@
             <button id="modal-confirm" class="button button--danger">Confirmar</button>
           </div>
         `;
-
         this.modal.appendChild(content);
         document.body.appendChild(this.modal);
-
         const confirmBtn = this.modal.querySelector('#modal-confirm');
         const cancelBtn = this.modal.querySelector('#modal-cancel');
-
         confirmBtn.addEventListener('click', () => this.handleConfirm());
         cancelBtn.addEventListener('click', () => this.handleCancel());
         this.modal.addEventListener('click', (e) => e.target === this.modal && this.handleCancel());
-
         confirmBtn.focus();
       }
-
       handleConfirm() {
         this.onConfirm();
         this.close();
       }
-
       handleCancel() {
         this.onCancel();
         this.close();
       }
-
       close() {
         if (this.modal) {
           this.modal.remove();
@@ -583,7 +516,6 @@
         }
       }
     }
-
     /* ===== TOAST NOTIFICATION SYSTEM ===== */
     class Toast {
       static create(message, type = 'info', duration = 3000) {
@@ -591,14 +523,12 @@
         toast.setAttribute('role', 'status');
         toast.setAttribute('aria-live', 'polite');
         toast.setAttribute('aria-atomic', 'true');
-
         const bgColor = {
           success: 'var(--color-success)',
           error: 'var(--color-danger)',
           warning: 'var(--color-warning)',
           info: 'var(--color-primary)'
         }[type] || 'var(--color-primary)';
-
         toast.style.cssText = `
           position: fixed; bottom: var(--spacing-xl); right: var(--spacing-xl);
           background: ${bgColor}; color: white; padding: var(--spacing-md) var(--spacing-lg);
@@ -607,7 +537,6 @@
           word-wrap: break-word;
         `;
         toast.textContent = message;
-
         if (!document.getElementById('toast-style')) {
           const style = document.createElement('style');
           style.id = 'toast-style';
@@ -623,21 +552,17 @@
           `;
           document.head.appendChild(style);
         }
-
         document.body.appendChild(toast);
-
         setTimeout(() => {
           toast.style.animation = 'slideOut 0.3s ease forwards';
           setTimeout(() => toast.remove(), 300);
         }, duration);
       }
-
       static success(message) { this.create(message, 'success'); }
       static error(message) { this.create(message, 'error'); }
       static warning(message) { this.create(message, 'warning'); }
       static info(message) { this.create(message, 'info'); }
     }
-
     /* ===== MAIN APP ===== */
     const DashboardApp = (() => {
       const DOM = {
@@ -657,12 +582,10 @@
         exportBtn: document.getElementById('exportButton'),
         toggleThemeBtn: document.getElementById('toggleTheme'),
       };
-
       let users = [];
       let sales = [];
       let salesChart = null;
       let userPieChart = null;
-
       const Storage = {
         load() {
           try {
@@ -688,7 +611,6 @@
           sales = Array.isArray(sales) ? sales.filter(s => s.user && typeof s.value === 'number' && s.date) : [];
         }
       };
-
       const Sanitize = {
         text(str) {
           const div = document.createElement('div');
@@ -696,7 +618,6 @@
           return div.textContent;
         }
       };
-
       const Users = {
         add(name) {
           const sanitized = Sanitize.text(name);
@@ -725,18 +646,15 @@
           DOM.userList.innerHTML = '';
           DOM.userSelect.innerHTML = '';
           DOM.filterUser.innerHTML = '<option value="">Todos os Usuários</option>';
-
           users.forEach((user, index) => {
             const opt1 = document.createElement('option');
             opt1.value = index;
             opt1.textContent = user;
             DOM.userSelect.appendChild(opt1);
-
             const opt2 = document.createElement('option');
             opt2.value = user;
             opt2.textContent = user;
             DOM.filterUser.appendChild(opt2);
-
             const li = document.createElement('li');
             li.setAttribute('role', 'listitem');
             const span = document.createElement('span');
@@ -746,16 +664,13 @@
             btn.textContent = 'Excluir';
             btn.setAttribute('aria-label', `Excluir usuário ${user}`);
             btn.addEventListener('click', () => Users.delete(index));
-
             li.appendChild(span);
             li.appendChild(btn);
             DOM.userList.appendChild(li);
           });
-
           DOM.totalUsersEl.textContent = users.length;
         }
       };
-
       const Sales = {
         add(userIndex, amount, date) {
           const idx = parseInt(userIndex, 10);
@@ -794,7 +709,6 @@
           const filterUserVal = DOM.filterUser.value;
           const filterStartVal = DOM.filterStart().value;
           const filterEndVal = DOM.filterEnd().value;
-
           return sales.filter(s => {
             if (filterUserVal && s.user !== filterUserVal) return false;
             if (filterStartVal && s.date < filterStartVal) return false;
@@ -806,27 +720,22 @@
           DOM.salesTable.innerHTML = '';
           const filtered = this.filter();
           let total = 0;
-
           filtered.forEach((sale, index) => {
             total += sale.value;
             const row = document.createElement('tr');
             row.setAttribute('role', 'row');
-
             const userCell = document.createElement('td');
             userCell.textContent = sale.user;
             userCell.setAttribute('data-label', 'Usuário');
             userCell.setAttribute('role', 'gridcell');
-
             const valueCell = document.createElement('td');
             valueCell.textContent = `R$ ${sale.value.toFixed(2)}`;
             valueCell.setAttribute('data-label', 'Valor (R$)');
             valueCell.setAttribute('role', 'gridcell');
-
             const dateCell = document.createElement('td');
             dateCell.textContent = sale.date;
             dateCell.setAttribute('data-label', 'Data');
             dateCell.setAttribute('role', 'gridcell');
-
             const actionCell = document.createElement('td');
             actionCell.setAttribute('role', 'gridcell');
             actionCell.setAttribute('data-label', 'Ações');
@@ -835,7 +744,6 @@
             btn.textContent = 'Excluir';
             btn.setAttribute('aria-label', `Excluir venda de ${sale.value.toFixed(2)} reais`);
             btn.addEventListener('click', () => Sales.delete(index));
-
             actionCell.appendChild(btn);
             row.appendChild(userCell);
             row.appendChild(valueCell);
@@ -843,12 +751,10 @@
             row.appendChild(actionCell);
             DOM.salesTable.appendChild(row);
           });
-
           DOM.totalSalesEl.textContent = total.toFixed(2);
           Charts.update(filtered);
         }
       };
-
       const Charts = {
         async loadChartJS() {
           return new Promise((resolve) => {
@@ -888,7 +794,6 @@
               }
             }
           });
-
           const ctxPieEl = document.getElementById('userPieChart');
           if (!ctxPieEl) return;
           const ctxPie = ctxPieEl.getContext('2d');
@@ -912,13 +817,11 @@
           filtered.forEach(sale => {
             totalPerUser[sale.user] = (totalPerUser[sale.user] || 0) + sale.value;
           });
-
           if (salesChart) {
             salesChart.data.labels = filtered.map((_, i) => `Venda ${i + 1}`);
             salesChart.data.datasets[0].data = filtered.map(s => s.value);
             salesChart.update();
           }
-
           if (userPieChart) {
             userPieChart.data.labels = Object.keys(totalPerUser);
             userPieChart.data.datasets[0].data = Object.values(totalPerUser);
@@ -939,7 +842,6 @@
           }
         }
       };
-
       const Theme = {
         toggle() {
           document.body.classList.toggle('light');
@@ -954,7 +856,6 @@
           }
         }
       };
-
       const Export = {
         csv() {
           if (sales.length === 0) {
@@ -973,7 +874,6 @@
           link.click();
         }
       };
-
       function bindEvents() {
         DOM.addUserBtn.addEventListener('click', () => {
           const val = DOM.getUserNameInput().value;
@@ -982,11 +882,9 @@
             DOM.getUserNameInput().focus();
           }
         });
-
         DOM.getUserNameInput().addEventListener('keypress', (e) => {
           if (e.key === 'Enter') DOM.addUserBtn.click();
         });
-
         DOM.addSaleBtn.addEventListener('click', () => {
           const userIdx = DOM.userSelect.value;
           const amount = DOM.getSaleAmountInput().value;
@@ -997,19 +895,15 @@
             DOM.userSelect.focus();
           }
         });
-
         DOM.getSaleAmountInput().addEventListener('keypress', (e) => {
           if (e.key === 'Enter') DOM.addSaleBtn.click();
         });
-
         DOM.filterUser.addEventListener('change', () => Sales.render());
         DOM.getFilterStart().addEventListener('change', () => Sales.render());
         DOM.getFilterEnd().addEventListener('change', () => Sales.render());
-
         DOM.exportBtn.addEventListener('click', () => Export.csv());
         DOM.toggleThemeBtn.addEventListener('click', () => Theme.toggle());
       }
-
       return {
         init() {
           Storage.load();
@@ -1021,7 +915,6 @@
         }
       };
     })();
-
     document.addEventListener('DOMContentLoaded', () => {
       DashboardApp.init();
     });
