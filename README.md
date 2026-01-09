@@ -1,979 +1,412 @@
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Dashboard avançado para gerenciamento e registro de vendas com filtros e gráficos analíticos.">
-  <meta name="theme-color" content="#1e293b">
-  <title>Dashboard de Vendas - Gerenciamento de Vendas</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Dashboard avançado para gerenciamento e registro de vendas com filtros e gráficos analíticos." />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com;">
+  <title>Dashboard de Vendas — Refatorado</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-    :root {
-      --color-bg-dark: #0f172a;
-      --color-bg-dark-2: #1e293b;
-      --color-bg-light: #f1f5f9;
-      --color-bg-light-2: #ffffff;
-      --color-text-dark: #e2e8f0;
-      --color-text-dark-sec: #93c5fd;
-      --color-text-light: #1e293b;
-      --color-text-light-sec: #2563eb;
-      --color-primary: #3b82f6;
-      --color-primary-dark: #2563eb;
-      --color-primary-darker: #1d4ed8;
-      --color-danger: #ef4444;
-      --color-danger-dark: #dc2626;
-      --color-danger-darker: #b91c1c;
-      --color-success: #10b981;
-      --color-success-dark: #059669;
-      --color-warning: #f59e0b;
-      --color-warning-dark: #d97706;
-      --color-border-dark: #334155;
-      --color-border-light: #cbd5e1;
-      --color-input-bg-dark: rgba(15, 23, 42, 0.7);
-      --color-input-bg-light: rgba(241, 245, 259, 0.9);
-      --radius-sm: 8px;
-      --radius-md: 10px;
-      --radius-lg: 16px;
-      --spacing-xs: 6px;
-      --spacing-sm: 8px;
-      --spacing-md: 12px;
-      --spacing-lg: 15px;
-      --spacing-xl: 20px;
-      --spacing-2xl: 25px;
-      --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.4);
-      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-      --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.1);
-      --transition-fast: 0.2s ease;
-      --transition-base: 0.3s ease;
-      --transition-slow: 0.4s ease;
+    :root{
+      --bg-dark:#0f172a; --bg-dark-2:#1e293b; --bg-light:#f1f5f9; --bg-light-2:#ffffff;
+      --text-dark:#e2e8f0; --text-dark-sec:#93c5fd; --text-light:#1e293b; --text-light-sec:#2563eb;
+      --primary:#3b82f6; --primary-dark:#2563eb; --danger:#ef4444; --success:#10b981;
+      --border-dark:#334155; --border-light:#cbd5e1;
+      --radius-sm:8px; --radius-md:10px; --radius-lg:16px;
+      --spacing-sm:8px; --spacing-md:12px; --spacing-lg:20px;
+      --shadow-sm:0 4px 10px rgba(0,0,0,0.4);
+      --transition-base:0.3s ease;
+      --min-touch:44px;
     }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans",sans-serif;
+      background:linear-gradient(135deg,var(--bg-dark),var(--bg-dark-2));
+      color:var(--text-dark);
+      padding:24px;
+      transition:background var(--transition-base),color var(--transition-base);
     }
-    body {
-      background: linear-gradient(135deg, var(--color-bg-dark), var(--color-bg-dark-2));
-      color: var(--color-text-dark);
-      padding: var(--spacing-xl);
-      transition: background var(--transition-slow), color var(--transition-slow);
-    }
-    body.light {
-      background: linear-gradient(135deg, var(--color-bg-light), var(--color-bg-light-2));
-      color: var(--color-text-light);
-    } transition: background 0.4s, color 0.4s;
-    }
-    header {
-      display: flex;
-      transition: background var(--transition-fast);
-      align-items: center;
-      padding: var(--spacing-lg) var(--spacing-xl);
-      border-radius: var(--radius-lg);
-      background: rgba(30, 41, 59, 0.8);
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow-sm);
-        table {
-          font-size: 0.85rem;
-          overflow-x: hidden; /* Added to remove overflow-x */
-        }
-      margin-bottom: var(--spacing-2xl);
-      transition: background var(--transition-slow), box-shadow var(--transition-slow);
-    }
-    body.light header {
-      background: rgba(255, 255, 255, 0.8);
-      box-shadow: var(--shadow-light);
-    }
-    header h1 {
-      font-size: 2rem;
-      font-weight: 700;
-    }
-    button {
-      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-      border: none;
-      color: #fff;
-      padding: 10px 18px;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      font-size: 0.95rem;
-      font-weight: 600;
-      transition: background var(--transition-base), box-shadow var(--transition-fast);
-      min-height: 44px;
-      min-width: 44px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    button:hover {
-      background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary-darker));
-      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
-    }
-    @media (max-width: 640px) {
-      table, thead, tbody, th, td, tr {
-        display: block;
-      }
-      thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-      }
-      tr {
-        margin-bottom: var(--spacing-xl);
-        border: 1px solid var(--color-border-dark);
-        border-radius: var(--radius-md);
-        padding: var(--spacing-md);
-      }
-      body.light tr {
-        border: 1px solid var(--color-border-light);
-      }
-      td {
-        padding-left: 50%;
-        position: relative;
-        margin-bottom: var(--spacing-sm);
-      }
-      td:before {
-        content: attr(data-label);
-        position: absolute;
-        left: var(--spacing-md);
-        font-weight: 600;
-        text-transform: capitalize;
-        color: var(--color-text-dark-sec);
-      }
-      body.light td:before {
-        color: var(--color-text-light-sec);
-      }
-    }
-    button:focus-visible {
-      outline: 2px solid var(--color-primary);
-      outline-offset: 2px;
-    }
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    button.button--danger {
-      background: linear-gradient(135deg, var(--color-danger), var(--color-danger-dark));
-      font-size: 0.8rem;
-      padding: var(--spacing-xs) 14px;
-    }
-    .summary {
-      display: flex;
-      justify-content: space-between;
-      background: rgba(30, 41, 59, 0.85);
-      backdrop-filter: blur(10px);
-      padding: var(--spacing-xl);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
-      text-align: center;
-      transition: background var(--transition-slow);
-    }
-    body.light .summary {
-      background: rgba(255, 255, 255, 0.85);
-      box-shadow: var(--shadow-light);
-    }
-    .summary__item {
-      flex: 1;
-      font-size: 1.1rem;
-      font-weight: 600;
-    } box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
-    }
-    section {
-      background: rgba(30, 41, 59, 0.85);
-      backdrop-filter: blur(10px);
-      padding: var(--spacing-xl);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      transition: background var(--transition-slow);
-    }
-    body.light section {
-      background: rgba(255, 255, 255, 0.85);
-    }
-    section__title {
-      font-size: 1.4rem;
-      margin-bottom: var(--spacing-lg);
-      color: #60a5fa;
-    }
-    body.light section__title {
-      color: var(--color-text-light-sec);
-    }
-    label {
-      display: block;
-      margin-bottom: var(--spacing-sm);
-      font-weight: 500;
-      font-size: 0.95rem;
-    }
-    .form__group {
-      margin-bottom: var(--spacing-md);
-    }
-    input, select {
-      width: 100%;
-      padding: 10px;
-      margin: var(--spacing-sm) 0;
-      border: 1px solid var(--color-border-dark);
-      border-radius: var(--radius-md);
-      font-size: 1rem;
-      background: var(--color-input-bg-dark);
-      color: var(--color-text-dark);
-      transition: border var(--transition-base), background var(--transition-base);
-      min-height: 44px;
-    }
-    input:focus-visible, select:focus-visible {
-      border-color: var(--color-primary);
-      outline: 2px solid var(--color-primary);
-      outline-offset: -1px;
-    }
-    input:invalid:not(:placeholder-shown) {
-      border-color: var(--color-danger);
-    }
-    input:valid:not(:placeholder-shown),
-    input[type="date"],
-    input[type="number"] {
-      border-color: var(--color-success);
-    }
-    body.light input, body.light select {
-      background: var(--color-input-bg-light);
-      color: var(--color-text-light);
-      border: 1px solid var(--color-border-light);
-    }
-    .input__error {
-      display: block;
-      color: var(--color-danger);
-      font-size: 0.85rem;
-      margin-top: var(--spacing-xs);
-    }abel {
-      display: block;
-      margin-bottom: var(--spacing-sm);
-      font-weight: 500;
-      font-size: 0.95rem;
-    }
-    input, select {
-      width: 100%;
-      padding: 10px;
-      margin: var(--spacing-sm) 0;
-      border: 1px solid var(--color-border-dark);
-      border-radius: var(--radius-md);
-      font-size: 1rem;
-      background: var(--color-input-bg-dark);
-      color: var(--color-text-dark);
-      transition: border 0.3s, background 0.3s;
-    }
-    input:focus-visible, select:focus-visible {
-      border-color: var(--color-primary);
-      outline: 2px solid var(--color-primary);
-      outline-offset: -1px;
-    }
-    body.light input, body.light select {
-      background: var(--color-input-bg-light);
-      color: var(--color-text-light);
-      border: 1px solid var(--color-border-light);
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: var(--spacing-md) 0 0;
-    }
-    li {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: var(--spacing-sm) var(--spacing-md);
-      margin-bottom: var(--spacing-xs);
-      border-radius: var(--radius-sm);
-      background: rgba(15, 23, 42, 0.8);
-      font-size: 0.95rem;
-      transition: background 0.2s;
-    }
-    li:hover {
-      background: rgba(30, 41, 59, 0.9);
-    }
-    body.light li {
-      background: rgba(241, 245, 259, 0.9);
-    }
-    body.light li:hover {
-      background: rgba(226, 232, 240, 0.95);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: var(--spacing-md);
-      font-size: 0.95rem;
-      overflow-x: auto;
-    }
-    thead {
-      background: rgba(30, 41, 59, 0.9);
-    }
-    th, td {
-      padding: var(--spacing-md);
-      text-align: left;
-      border-bottom: 1px solid var(--color-border-dark);
-    }
-    th {
-      color: var(--color-text-dark-sec);
-      font-weight: 600;
-    }
-    body.light th {
-      background: rgba(226, 232, 240, 0.9);
-      color: var(--color-text-light);
-    }
-    .charts {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: var(--spacing-xl);
-    }
-    canvas {
-      background: rgba(15, 23, 42, 0.85);
-      padding: 10px;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-    }
-    body.light canvas {
-      background: rgba(255, 255, 255, 0.85);
-    }
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border-width: 0;
-    }
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--spacing-md);
-      }
-      .summary {
-        flex-direction: column;
-        gap: var(--spacing-md);
-      }
-      table {
-        font-size: 0.85rem;
-      }
-      th, td {
-        padding: var(--spacing-sm);
-      }
-    }
+    body.light{background:linear-gradient(135deg,var(--bg-light),var(--bg-light-2)); color:var(--text-light)}
+    header{display:flex;justify-content:space-between;align-items:center;padding:16px;border-radius:12px;background:rgba(30,41,59,0.8);backdrop-filter:blur(8px);box-shadow:var(--shadow-sm);margin-bottom:20px}
+    header h1{font-size:1.5rem}
+    .actions{display:flex;gap:8px}
+    button{background:linear-gradient(135deg,var(--primary),var(--primary-dark));border:none;color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer;min-height:var(--min-touch);min-width:var(--min-touch)}
+    button:focus{outline:3px solid rgba(59,130,246,0.25)}
+    .container{display:grid;grid-template-columns:1fr 420px;gap:20px;align-items:start}
+    @media(max-width:980px){.container{grid-template-columns:1fr}}
+    .card{background:rgba(30,41,59,0.85);padding:16px;border-radius:12px;box-shadow:var(--shadow-sm)}
+    body.light .card{background:rgba(255,255,255,0.95);color:var(--text-light)}
+    .summary{display:flex;gap:12px;justify-content:space-between;margin-bottom:12px}
+    .summary__item{flex:1;text-align:center;padding:12px;border-radius:10px;background:rgba(255,255,255,0.02)}
+    .form-row{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+    input,select{padding:10px;border-radius:8px;border:1px solid var(--border-dark);background:rgba(15,23,42,0.7);color:var(--text-dark);min-height:40px;width:100%}
+    body.light input,body.light select{background:var(--bg-light);border:1px solid var(--border-light);color:var(--text-light)}
+    table{width:100%;border-collapse:collapse;margin-top:8px;font-size:0.95rem}
+    th,td{padding:10px;border-bottom:1px solid var(--border-dark);text-align:left}
+    th{color:var(--text-dark-sec);font-weight:600}
+    .charts{display:grid;grid-template-columns:1fr 260px;gap:12px}
+    @media(max-width:980px){.charts{grid-template-columns:1fr}}
+    .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .button--danger{background:linear-gradient(135deg,var(--danger),#dc2626)}
+    .toast{position:fixed;right:12px;bottom:18px;z-index:9999;padding:12px 16px;border-radius:8px;color:#fff;box-shadow:var(--shadow-sm)}
+    .toast.success{background:var(--success)}
+    .toast.error{background:var(--danger)}
   </style>
 </head>
 <body>
-  <header>
+  <header aria-label="Cabeçalho">
     <h1>📊 Dashboard de Vendas</h1>
-    <div>
-      <button id="toggleTheme" aria-label="Alternar tema claro/escuro">🌙 Tema</button>
-      <button id="exportButton" aria-label="Exportar dados de vendas em CSV">⬇ Exportar CSV</button>
+    <div class="actions">
+      <button id="toggleTheme" aria-label="Alternar tema">🌙</button>
+      <button id="exportBtn" aria-label="Exportar CSV">⬇ Exportar</button>
     </div>
   </header>
 
-  <main>
-    <div class="summary" role="status" aria-live="polite">
-      <div class="summary__item">
-        <strong>Total de Vendas:</strong> R$ <span id="totalSales" aria-label="Total de vendas">0.00</span>
+  <main class="container" id="app">
+    <section>
+      <div class="summary card" role="status" aria-live="polite">
+        <div class="summary__item"><strong>Total de Vendas:</strong><div id="totalSales" aria-label="Total de vendas">R$ 0.00</div></div>
+        <div class="summary__item"><strong>Usuários Cadastrados:</strong><div id="totalUsers">0</div></div>
       </div>
-      <div class="summary__item">
-        <strong>Usuários Cadastrados:</strong> <span id="totalUsers" aria-label="Quantidade de usuários">0</span>
+      <div class="card" aria-labelledby="tableTitle">
+        <h2 id="tableTitle">Vendas Registradas</h2>
+        <table id="salesTable" aria-label="Vendas">
+          <thead><tr><th>Usuário</th><th>Valor (R$)</th><th>Data</th><th>Ações</th></tr></thead>
+          <tbody></tbody>
+        </table>
       </div>
-    </div>
-    <section aria-labelledby="manageUsersTitle">
-      <h2 id="manageUsersTitle">Gerenciar Usuários</h2>
-      <div>
-        <label for="userName">Nome do usuário</label>
-        <input type="text" id="userName" name="userName" placeholder="Digite o nome" aria-describedby="userNameHelp">
-        <span id="userNameHelp" class="visually-hidden">Digite um nome válido para adicionar novo usuário</span>
+      <div class="card charts" aria-label="Gráficos">
+        <div><canvas id="salesChart" role="img" aria-label="Gráfico de vendas"></canvas></div>
+        <div><canvas id="userPieChart" role="img" aria-label="Distribuição por usuário"></canvas></div>
       </div>
-      <button id="addUserBtn">Adicionar Usuário</button>
-      <ul id="userList" role="list" aria-label="Lista de usuários cadastrados"></ul>
     </section>
-    <section aria-labelledby="registerSaleTitle">
-      <h2 id="registerSaleTitle">Registrar Venda</h2>
-      <fieldset>
-        <legend class="visually-hidden">Formulário de registro de venda</legend>
-        <div>
-          <label for="userSelect">Selecione um usuário</label>
-          <select id="userSelect" name="userSelect" aria-describedby="userSelectHelp">
-            <option value="">-- Selecione um usuário --</option>
-          </select>
-          <span id="userSelectHelp" class="visually-hidden">Escolha um usuário para registrar a venda</span>
+    <aside>
+      <div class="card" aria-labelledby="manageUsersTitle">
+        <h3 id="manageUsersTitle">Gerenciar Usuários</h3>
+        <label for="userName" class="visually-hidden">Nome do usuário</label>
+        <div class="form-row">
+          <input id="userName" placeholder="Nome do usuário" aria-describedby="userHelp" />
+          <button id="addUserBtn" title="Adicionar usuário">Adicionar</button>
         </div>
-        <div>
-          <label for="saleAmount">Valor da venda (R$)</label>
-          <input type="number" id="saleAmount" name="saleAmount" placeholder="0.00" min="0.01" step="0.01" aria-describedby="saleAmountHelp">
-          <span id="saleAmountHelp" class="visually-hidden">Digite um valor positivo para a venda</span>
-        </div>
-        <div>
-          <label for="saleDate">Data da venda</label>
-          <input type="date" id="saleDate" name="saleDate" aria-describedby="saleDateHelp">
-          <span id="saleDateHelp" class="visually-hidden">Selecione a data da venda ou deixe em branco para usar a data de hoje</span>
-        </div>
-      </fieldset>
-      <button id="addSaleBtn">Adicionar Venda</button>
-    </section>
-    <section aria-labelledby="filterSalesTitle">
-      <h2 id="filterSalesTitle">Filtrar Vendas</h2>
-      <fieldset>
-        <legend class="visually-hidden">Filtros de vendas</legend>
-        <div>
-          <label for="filterUser">Usuário</label>
-          <select id="filterUser" name="filterUser" aria-describedby="filterUserHelp">
-            <option value="">Todos os Usuários</option>
-          </select>
-          <span id="filterUserHelp" class="visually-hidden">Filtre por um usuário específico ou veja todos</span>
-        </div>
-        <div>
-          <label for="filterStart">Data inicial</label>
-          <input type="date" id="filterStart" name="filterStart" aria-describedby="filterStartHelp">
-          <span id="filterStartHelp" class="visually-hidden">Selecione a data inicial do período</span>
-        </div>
-        <div>
-          <label for="filterEnd">Data final</label>
-          <input type="date" id="filterEnd" name="filterEnd" aria-describedby="filterEndHelp">
-          <span id="filterEndHelp" class="visually-hidden">Selecione a data final do período</span>
-        </div>
-      </fieldset>
-    </section>
-    <section aria-labelledby="salesTableTitle">
-      <h2 id="salesTableTitle">Vendas Registradas</h2>
-      <table id="salesTable" role="grid" aria-label="Tabela de vendas registradas">
-        <thead>
-          <tr>
-            <th scope="col">Usuário</th>
-            <th scope="col">Valor (R$)</th>
-            <th scope="col">Data</th>
-            <th scope="col">Ações</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </section>
-    <div class="charts" role="region" aria-label="Gráficos analíticos">
-      <div>
-        <canvas id="salesChart" role="img" aria-label="Gráfico de linha com vendas por transação"></canvas>
+        <ul id="userList" aria-label="Lista de usuários" style="margin-top:8px;list-style:none;padding:0"></ul>
       </div>
-      <div>
-        <canvas id="userPieChart" role="img" aria-label="Gráfico de pizza com distribuição de vendas por usuário"></canvas>
+      <div class="card" aria-labelledby="registerSaleTitle" style="margin-top:12px">
+        <h3 id="registerSaleTitle">Registrar Venda</h3>
+        <div class="form-row">
+          <select id="userSelect"><option value="">-- Selecione --</option></select>
+        </div>
+        <div class="form-row"><input id="saleAmount" type="number" placeholder="0.00" min="0.01" step="0.01" /></div>
+        <div class="form-row"><input id="saleDate" type="date" /></div>
+        <div class="form-row"><button id="addSaleBtn">Adicionar Venda</button></div>
       </div>
-    </div>
+      <div class="card" aria-labelledby="filtersTitle" style="margin-top:12px">
+        <h3 id="filtersTitle">Filtros</h3>
+        <div class="form-row"><select id="filterUser"><option value="">Todos os Usuários</option></select></div>
+        <div class="form-row"><input id="filterStart" type="date" /><input id="filterEnd" type="date" /></div>
+      </div>
+    </aside>
   </main>
-  <script defer>
-    /* ===== MODAL COMPONENT ===== */
-    class AccessibleModal {
-      constructor(options = {}) {
-        this.title = options.title || 'Confirmação';
-        this.message = options.message || '';
-        this.onConfirm = options.onConfirm || (() => {});
-        this.onCancel = options.onCancel || (() => {});
-        this.modal = null;
-      }
 
-      show() {
-        this.modal = document.createElement('div');
-        this.modal.setAttribute('role', 'alertdialog');
-        this.modal.setAttribute('aria-modal', 'true');
-        this.modal.setAttribute('aria-labelledby', 'modal-title');
-        this.modal.setAttribute('aria-describedby', 'modal-message');
-        this.modal.style.cssText = `
-          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(0,0,0,0.5); display: flex; align-items: center;
-          justify-content: center; z-index: 1000; padding: var(--spacing-lg);
-        `;
+  <script type="module">
+  // Utility: small safe escape and CSV-safe value to prevent CSV injection
+  const Utils = {
+    uid() {
+      return Date.now().toString(36) + Math.random().toString(36).slice(2,9);
+    },
+    escapeText(s = '') {
+      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    },
+    csvSafeCell(v = '') {
+      let s = String(v);
+      // Prevent CSV injection: prefix = +,-,=,@
+      if (/^[=+\-@]/.test(s)) s = '\'' + s;
+      // double quotes inside cell
+      s = s.replace(/"/g, '""');
+      return `"${s}"`;
+    }
+  };
 
-        const content = document.createElement('div');
-        content.style.cssText = `
-          background: var(--color-bg-dark-2); color: var(--color-text-dark);
-          padding: var(--spacing-xl); border-radius: var(--radius-lg);
-          max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-        `;
-        document.body.classList.contains('light') && (content.style.background = 'var(--color-bg-light-2)', content.style.color = 'var(--color-text-light)');
+  // StorageService: encapsula localStorage com namespace e validação
+  class StorageService {
+    constructor(namespace = 'dashboard') { this.ns = namespace; }
+    key(k){ return `${this.ns}:${k}`; }
+    set(k,v){ try { localStorage.setItem(this.key(k), JSON.stringify(v)); return true; } catch(e){ console.error('Storage.set',e); return false; } }
+    get(k, fallback = null){ try { const v = localStorage.getItem(this.key(k)); return v ? JSON.parse(v) : fallback; } catch(e){ console.error('Storage.get', e); return fallback; } }
+    remove(k){ try { localStorage.removeItem(this.key(k)); return true; } catch(e){ return false; } }
+  }
 
-        content.innerHTML = `
-          <h3 id="modal-title" style="margin-bottom: var(--spacing-md); font-size: 1.2rem;">${this.title}</h3>
-          <p id="modal-message" style="margin-bottom: var(--spacing-xl); line-height: 1.6;">${this.message}</p>
-          <div style="display: flex; gap: var(--spacing-md); justify-content: flex-end;">
-            <button id="modal-cancel" class="button" style="background: linear-gradient(135deg, var(--color-border-dark), var(--color-border-dark));">Cancelar</button>
-            <button id="modal-confirm" class="button button--danger">Confirmar</button>
-          </div>
-        `;
+  // Validator
+  const Validator = {
+    isValidName(name){ return typeof name === 'string' && (name = name.trim()) && name.length >= 2 && name.length <= 100 && !/[<>\"']/g.test(name); },
+    isValidSale({user, value, date}) {
+      return typeof user === 'string' && user.trim() &&
+             typeof value === 'number' && value > 0 && value < 1_000_000 &&
+             /^\d{4}-\d{2}-\d{2}$/.test(date);
+    }
+  };
 
-        this.modal.appendChild(content);
-        document.body.appendChild(this.modal);
+  // Accessible modal (promise-based)
+  class AccessibleModal {
+    constructor({title='Confirmação', message='', confirmLabel='Confirmar', cancelLabel='Cancelar'}={}) {
+      this.title = title; this.message = message; this.confirm = confirmLabel; this.cancel = cancelLabel;
+      this.overlay = null;
+    }
+    show() {
+      return new Promise(resolve => {
+        this.overlay = document.createElement('div');
+        Object.assign(this.overlay.style, {position:'fixed',inset:0,display:'flex',alignItems:'center',justifyContent:'center',background:'rgba(0,0,0,0.45)',zIndex:9999});
+        this.overlay.addEventListener('click', (e)=>{ if(e.target===this.overlay) { this.close(); resolve(false); } });
 
-        const confirmBtn = this.modal.querySelector('#modal-confirm');
-        const cancelBtn = this.modal.querySelector('#modal-cancel');
+        const dialog = document.createElement('div');
+        dialog.setAttribute('role','dialog'); dialog.setAttribute('aria-modal','true');
+        Object.assign(dialog.style,{background: getComputedStyle(document.body).backgroundColor, color: getComputedStyle(document.body).color, padding:'18px',borderRadius:'10px',maxWidth:'520px',width:'90%'});
 
-        confirmBtn.addEventListener('click', () => this.handleConfirm());
-        cancelBtn.addEventListener('click', () => this.handleCancel());
-        this.modal.addEventListener('click', (e) => e.target === this.modal && this.handleCancel());
+        const h = document.createElement('h3'); h.textContent = this.title; h.style.marginBottom='8px';
+        const p = document.createElement('p'); p.textContent = this.message; p.style.marginBottom='14px';
+        const actions = document.createElement('div'); actions.style.display='flex'; actions.style.justifyContent='flex-end'; actions.style.gap='8px';
 
+        const cancelBtn = document.createElement('button'); cancelBtn.textContent = this.cancel; cancelBtn.addEventListener('click',()=>{ this.close(); resolve(false); });
+        const confirmBtn = document.createElement('button'); confirmBtn.textContent = this.confirm; confirmBtn.className='button--danger'; confirmBtn.addEventListener('click',()=>{ this.close(); resolve(true); });
+
+        actions.appendChild(cancelBtn); actions.appendChild(confirmBtn);
+        dialog.appendChild(h); dialog.appendChild(p); dialog.appendChild(actions);
+        this.overlay.appendChild(dialog);
+        document.body.appendChild(this.overlay);
         confirmBtn.focus();
-      }
+      });
+    }
+    close(){ if(this.overlay){ this.overlay.remove(); this.overlay = null; } }
+  }
 
-      handleConfirm() {
-        this.onConfirm();
-        this.close();
-      }
+  // Toasts (simple)
+  const Toast = {
+    create(msg, cls='success', duration=3000) {
+      const t = document.createElement('div'); t.className = `toast ${cls}`; t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(()=> { t.style.opacity = 0; setTimeout(()=>t.remove(),300); }, duration);
+    },
+    success(m){ this.create(m,'success'); },
+    error(m){ this.create(m,'error'); }
+  };
 
-      handleCancel() {
-        this.onCancel();
-        this.close();
-      }
+  // Domain services: UserService & SaleService
+  class UserService {
+    constructor(storage){ this.storage = storage; this.key = 'users'; this.users = this.storage.get(this.key, []); }
+    all(){ return [...this.users]; }
+    add(name){
+      const s = String(name).trim();
+      if(!Validator.isValidName(s)) return {ok:false, reason:'invalid'};
+      if(this.users.includes(s)) return {ok:false, reason:'exists'};
+      this.users.push(s); this.storage.set(this.key, this.users); return {ok:true};
+    }
+    removeAt(idx){ if(idx<0||idx>=this.users.length) return false; this.users.splice(idx,1); this.storage.set(this.key,this.users); return true; }
+    count(){ return this.users.length; }
+  }
 
-      close() {
-        if (this.modal) {
-          this.modal.remove();
-          this.modal = null;
-        }
-      }
+  class SaleService {
+    constructor(storage){ this.storage = storage; this.key='sales'; this.sales = this.storage.get(this.key, []); }
+    all(){ return [...this.sales]; }
+    add({user,value,date}){
+      const sale = { id: Utils.uid(), user: String(user), value: Number(value), date: String(date) };
+      if(!Validator.isValidSale(sale)) return {ok:false, reason:'invalid'};
+      this.sales.push(sale); this.storage.set(this.key,this.sales); return {ok:true, sale};
+    }
+    deleteById(id){ const idx = this.sales.findIndex(s=>s.id===id); if(idx===-1) return false; this.sales.splice(idx,1); this.storage.set(this.key,this.sales); return true; }
+    filter({user, minDate, maxDate} = {}) {
+      return this.sales.filter(s=>{
+        if(user && s.user !== user) return false;
+        if(minDate && s.date < minDate) return false;
+        if(maxDate && s.date > maxDate) return false;
+        return true;
+      });
+    }
+    getTotalsByUser(filtered=null){
+      const set = filtered||this.sales;
+      return set.reduce((acc,s)=>{ acc[s.user]=(acc[s.user]||0)+s.value; return acc; }, {});
+    }
+    total(filtered=null){ return (filtered||this.sales).reduce((sum,s)=>sum+s.value,0); }
+  }
+
+  // Chart manager: lazy load Chart.js and update
+  const ChartManager = {
+    async ensureLoaded(){
+      if(window.Chart) return;
+      await new Promise(resolve=>{
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+        s.onload = () => resolve();
+        s.onerror = () => { console.warn('Chart.js load failed'); resolve(); };
+        document.head.appendChild(s);
+      });
+    },
+    async init(lineCanvas, pieCanvas){
+      await this.ensureLoaded();
+      if(!window.Chart) return;
+      this.line = new Chart(lineCanvas.getContext('2d'), { type:'line', data:{labels:[],datasets:[{ label:'Vendas (R$)', data:[], borderColor:getComputedStyle(document.documentElement).getPropertyValue('--primary')||'#3b82f6', fill:true }] }, options:{responsive:true} });
+      this.pie = new Chart(pieCanvas.getContext('2d'), { type:'pie', data:{labels:[],datasets:[{ data:[], backgroundColor:['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6'] }] }, options:{responsive:true} });
+    },
+    update(lineData, byUser){
+      if(this.line){ this.line.data.labels = lineData.map((_,i)=>`Venda ${i+1}`); this.line.data.datasets[0].data = lineData; this.line.update(); }
+      if(this.pie){ this.pie.data.labels = Object.keys(byUser); this.pie.data.datasets[0].data = Object.values(byUser); this.pie.update(); }
+    }
+  };
+
+  // App: binds everything and handles UI safe render
+  const App = (() => {
+    const storage = new StorageService('dash_v1');
+    const users = new UserService(storage);
+    const sales = new SaleService(storage);
+
+    const dom = {
+      totalSales: document.getElementById('totalSales'),
+      totalUsers: document.getElementById('totalUsers'),
+      userList: document.getElementById('userList'),
+      userName: document.getElementById('userName'),
+      addUserBtn: document.getElementById('addUserBtn'),
+      userSelect: document.getElementById('userSelect'),
+      saleAmount: document.getElementById('saleAmount'),
+      saleDate: document.getElementById('saleDate'),
+      addSaleBtn: document.getElementById('addSaleBtn'),
+      salesTableBody: document.querySelector('#salesTable tbody'),
+      filterUser: document.getElementById('filterUser'),
+      filterStart: document.getElementById('filterStart'),
+      filterEnd: document.getElementById('filterEnd'),
+      exportBtn: document.getElementById('exportBtn'),
+      toggleTheme: document.getElementById('toggleTheme'),
+      salesCanvas: document.getElementById('salesChart'),
+      pieCanvas: document.getElementById('userPieChart'),
+    };
+
+    async function initCharts(){ await ChartManager.init(dom.salesCanvas, dom.pieCanvas); }
+
+    function renderUsers(){
+      // clear
+      dom.userList.innerHTML=''; dom.userSelect.innerHTML=''; dom.filterUser.innerHTML='';
+      const defaultOpt = new Option('-- Selecione --',''); dom.userSelect.add(defaultOpt.cloneNode(true));
+      const defaultFilter = new Option('Todos os Usuários',''); dom.filterUser.add(defaultFilter.cloneNode(true));
+      const ufrag = document.createDocumentFragment();
+
+      users.all().forEach((u, idx)=>{
+        const li = document.createElement('li');
+        const name = document.createElement('span'); name.textContent = u;
+        const btn = document.createElement('button'); btn.className='button--danger'; btn.textContent='Excluir';
+        btn.style.marginLeft='8px';
+        btn.addEventListener('click', async ()=>{
+          const modal = new AccessibleModal({ title:'Excluir usuário', message:`Deseja remover ${u}? As vendas permanecerão.` });
+          if(await modal.show()){
+            users.removeAt(idx);
+            renderUsers(); renderSales();
+            Toast.success('Usuário removido');
+          }
+        });
+        li.appendChild(name); li.appendChild(btn); ufrag.appendChild(li);
+
+        const opt1 = new Option(u, idx); dom.userSelect.add(opt1.cloneNode(true));
+        const opt2 = new Option(u, u); dom.filterUser.add(opt2.cloneNode(true));
+      });
+
+      dom.userList.appendChild(ufrag);
+      dom.totalUsers.textContent = users.count();
     }
 
-    /* ===== TOAST NOTIFICATION SYSTEM ===== */
-    class Toast {
-      static create(message, type = 'info', duration = 3000) {
-        const toast = document.createElement('div');
-        toast.setAttribute('role', 'status');
-        toast.setAttribute('aria-live', 'polite');
-        toast.setAttribute('aria-atomic', 'true');
+    function renderSales(){
+      const filter = { user: dom.filterUser.value || undefined, minDate: dom.filterStart.value||undefined, maxDate: dom.filterEnd.value||undefined };
+      const filtered = sales.filter(filter);
+      const tbodyFrag = document.createDocumentFragment();
+      let total = 0;
 
-        const bgColor = {
-          success: 'var(--color-success)',
-          error: 'var(--color-danger)',
-          warning: 'var(--color-warning)',
-          info: 'var(--color-primary)'
-        }[type] || 'var(--color-primary)';
+      filtered.forEach(sale=>{
+        total += sale.value;
+        const tr = document.createElement('tr');
 
-        toast.style.cssText = `
-          position: fixed; bottom: var(--spacing-xl); right: var(--spacing-xl);
-          background: ${bgColor}; color: white; padding: var(--spacing-md) var(--spacing-lg);
-          border-radius: var(--radius-md); box-shadow: var(--shadow-md);
-          animation: slideIn 0.3s ease; z-index: 999; max-width: 300px;
-          word-wrap: break-word;
-        `;
-        toast.textContent = message;
+        const tdUser = document.createElement('td'); tdUser.textContent = sale.user; tr.appendChild(tdUser);
+        const tdVal = document.createElement('td'); tdVal.textContent = `R$ ${sale.value.toFixed(2)}`; tr.appendChild(tdVal);
+        const tdDate = document.createElement('td'); tdDate.textContent = sale.date; tr.appendChild(tdDate);
+        const tdAct = document.createElement('td'); 
+        const delBtn = document.createElement('button'); delBtn.textContent='Excluir'; delBtn.className='button--danger';
+        delBtn.addEventListener('click', async ()=> {
+          const modal = new AccessibleModal({ title:'Confirmar exclusão', message:`Excluir venda R$ ${sale.value.toFixed(2)} de ${sale.user}?` });
+          if(await modal.show()){
+            sales.deleteById(sale.id);
+            renderSales(); Toast.success('Venda excluída');
+          }
+        });
+        tdAct.appendChild(delBtn); tr.appendChild(tdAct);
 
-        if (!document.getElementById('toast-style')) {
-          const style = document.createElement('style');
-          style.id = 'toast-style';
-          style.textContent = `
-            @keyframes slideIn {
-              from { transform: translateX(400px); opacity: 0; }
-              to { transform: translateX(0); opacity: 1; }
-            }
-            @keyframes slideOut {
-              from { transform: translateX(0); opacity: 1; }
-              to { transform: translateX(400px); opacity: 0; }
-            }
-          `;
-          document.head.appendChild(style);
-        }
+        tbodyFrag.appendChild(tr);
+      });
 
-        document.body.appendChild(toast);
+      dom.salesTableBody.innerHTML=''; dom.salesTableBody.appendChild(tbodyFrag);
+      dom.totalSales.textContent = `R$ ${sales.total(filtered).toFixed(2)}`;
 
-        setTimeout(() => {
-          toast.style.animation = 'slideOut 0.3s ease forwards';
-          setTimeout(() => toast.remove(), 300);
-        }, duration);
-      }
-
-      static success(message) { this.create(message, 'success'); }
-      static error(message) { this.create(message, 'error'); }
-      static warning(message) { this.create(message, 'warning'); }
-      static info(message) { this.create(message, 'info'); }
+      // charts
+      const lineData = filtered.map(s=>s.value);
+      const totals = sales.getTotalsByUser(filtered);
+      ChartManager.update(lineData, totals);
     }
 
-    /* ===== MAIN APP ===== */
-    const DashboardApp = (() => {
-      const DOM = {
-        userNameInput: () => document.getElementById('userName'),
-        userSelect: document.getElementById('userSelect'),
-        filterUser: document.getElementById('filterUser'),
-        saleAmountInput: () => document.getElementById('saleAmount'),
-        saleDateInput: () => document.getElementById('saleDate'),
-        filterStart: () => document.getElementById('filterStart'),
-        filterEnd: () => document.getElementById('filterEnd'),
-        salesTable: document.getElementById('salesTable').querySelector('tbody'),
-        totalSalesEl: document.getElementById('totalSales'),
-        totalUsersEl: document.getElementById('totalUsers'),
-        userList: document.getElementById('userList'),
-        addUserBtn: document.getElementById('addUserBtn'),
-        addSaleBtn: document.getElementById('addSaleBtn'),
-        exportBtn: document.getElementById('exportButton'),
-        toggleThemeBtn: document.getElementById('toggleTheme'),
-      };
-
-      let users = [];
-      let sales = [];
-      let salesChart = null;
-      let userPieChart = null;
-
-      const Storage = {
-        load() {
-          try {
-            users = JSON.parse(localStorage.getItem('users')) || [];
-            sales = JSON.parse(localStorage.getItem('sales')) || [];
-            this.validate();
-          } catch (e) {
-            console.error('Erro ao carregar dados:', e);
-            users = [];
-            sales = [];
-          }
-        },
-        save() {
-          try {
-            localStorage.setItem('users', JSON.stringify(users));
-            localStorage.setItem('sales', JSON.stringify(sales));
-          } catch (e) {
-            console.error('Erro ao salvar dados:', e);
-          }
-        },
-        validate() {
-          users = Array.isArray(users) ? users.filter(u => typeof u === 'string' && u.trim()) : [];
-          sales = Array.isArray(sales) ? sales.filter(s => s.user && typeof s.value === 'number' && s.date) : [];
-        }
-      };
-
-      const Sanitize = {
-        text(str) {
-          const div = document.createElement('div');
-          div.textContent = String(str || '').trim();
-          return div.textContent;
-        }
-      };
-
-      const Users = {
-        add(name) {
-          const sanitized = Sanitize.text(name);
-          if (!Sanitize.isValidName(sanitized)) {
-            Toast.error('Nome inválido. Use 2-100 caracteres.');
-            return false;
-          }
-          if (users.includes(sanitized)) {
-            Toast.warning('Este usuário já existe.');
-            return false;
-          }
-          users.push(sanitized);
-          Storage.save();
-          this.render();
-          Toast.success(`Usuário "${sanitized}" adicionado!`);
-          return true;
-        },
-        delete(index) {
-          if (index < 0 || index >= users.length) return;
-          if (!confirm(`Deseja excluir "${users[index]}"? As vendas dele permanecerão.`)) return;
-          users.splice(index, 1);
-          Storage.save();
-          this.render();
-        },
-        render() {
-          DOM.userList.innerHTML = '';
-          DOM.userSelect.innerHTML = '';
-          DOM.filterUser.innerHTML = '<option value="">Todos os Usuários</option>';
-
-          users.forEach((user, index) => {
-            const opt1 = document.createElement('option');
-            opt1.value = index;
-            opt1.textContent = user;
-            DOM.userSelect.appendChild(opt1);
-
-            const opt2 = document.createElement('option');
-            opt2.value = user;
-            opt2.textContent = user;
-            DOM.filterUser.appendChild(opt2);
-
-            const li = document.createElement('li');
-            li.setAttribute('role', 'listitem');
-            const span = document.createElement('span');
-            span.textContent = user;
-            const btn = document.createElement('button');
-            btn.className = 'action';
-            btn.textContent = 'Excluir';
-            btn.setAttribute('aria-label', `Excluir usuário ${user}`);
-            btn.addEventListener('click', () => Users.delete(index));
-
-            li.appendChild(span);
-            li.appendChild(btn);
-            DOM.userList.appendChild(li);
-          });
-
-          DOM.totalUsersEl.textContent = users.length;
-        }
-      };
-
-      const Sales = {
-        add(userIndex, amount, date) {
-          const idx = parseInt(userIndex, 10);
-          if (isNaN(idx) || idx < 0 || idx >= users.length) {
-            alert('Selecione um usuário válido.');
-            return false;
-          }
-          const val = parseFloat(amount);
-          if (isNaN(val) || val <= 0) {
-            alert('Digite um valor válido maior que zero.');
-            return false;
-          }
-          const saleDate = date && date.trim() ? date : new Date().toISOString().split('T')[0];
-          sales.push({ user: users[idx], value: val, date: saleDate });
-          Storage.save();
-          this.render();
-          return true;
-        },
-        delete(index) {
-          if (index < 0 || index >= sales.length) return;
-          const sale = sales[index];
-          const modal = new AccessibleModal({
-            title: 'Confirmar exclusão de venda',
-            message: `Deseja realmente excluir a venda de R$ ${sale.value.toFixed(2)} do usuário ${sale.user}?`,
-            onConfirm: () => {
-              sales.splice(index, 1);
-              Storage.save();
-              this.render();
-              Toast.success('Venda excluída com sucesso.');
-            },
-            onCancel: () => Toast.info('Exclusão cancelada.')
-          });
-          modal.show();
-        },
-        filter() {
-          const filterUserVal = DOM.filterUser.value;
-          const filterStartVal = DOM.filterStart().value;
-          const filterEndVal = DOM.filterEnd().value;
-
-          return sales.filter(s => {
-            if (filterUserVal && s.user !== filterUserVal) return false;
-            if (filterStartVal && s.date < filterStartVal) return false;
-            if (filterEndVal && s.date > filterEndVal) return false;
-            return true;
-          });
-        },
-        render() {
-          DOM.salesTable.innerHTML = '';
-          const filtered = this.filter();
-          let total = 0;
-
-          filtered.forEach((sale, index) => {
-            total += sale.value;
-            const row = document.createElement('tr');
-            row.setAttribute('role', 'row');
-
-            const userCell = document.createElement('td');
-            userCell.textContent = sale.user;
-            userCell.setAttribute('data-label', 'Usuário');
-            userCell.setAttribute('role', 'gridcell');
-
-            const valueCell = document.createElement('td');
-            valueCell.textContent = `R$ ${sale.value.toFixed(2)}`;
-            valueCell.setAttribute('data-label', 'Valor (R$)');
-            valueCell.setAttribute('role', 'gridcell');
-
-            const dateCell = document.createElement('td');
-            dateCell.textContent = sale.date;
-            dateCell.setAttribute('data-label', 'Data');
-            dateCell.setAttribute('role', 'gridcell');
-
-            const actionCell = document.createElement('td');
-            actionCell.setAttribute('role', 'gridcell');
-            actionCell.setAttribute('data-label', 'Ações');
-            const btn = document.createElement('button');
-            btn.className = 'button button--danger';
-            btn.textContent = 'Excluir';
-            btn.setAttribute('aria-label', `Excluir venda de ${sale.value.toFixed(2)} reais`);
-            btn.addEventListener('click', () => Sales.delete(index));
-
-            actionCell.appendChild(btn);
-            row.appendChild(userCell);
-            row.appendChild(valueCell);
-            row.appendChild(dateCell);
-            row.appendChild(actionCell);
-            DOM.salesTable.appendChild(row);
-          });
-
-          DOM.totalSalesEl.textContent = total.toFixed(2);
-          Charts.update(filtered);
-        }
-      };
-
-      const Charts = {
-        async loadChartJS() {
-          return new Promise((resolve) => {
-            if (window.Chart) return resolve();
-            const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
-            script.onload = () => resolve();
-            document.head.appendChild(script);
-          });
-        },
-        init() {
-          this.loadChartJS().then(() => this._initCharts());
-        },
-        _initCharts() {
-          const ctxLineEl = document.getElementById('salesChart');
-          if (!ctxLineEl) return;
-          const ctxLine = ctxLineEl.getContext('2d');
-          salesChart = new Chart(ctxLine, {
-            type: 'line',
-            data: {
-              labels: [],
-              datasets: [{
-                label: 'Vendas (R$)',
-                data: [],
-                borderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() || '#3b82f6',
-                fill: true,
-                backgroundColor: 'rgba(59,130,246,0.12)',
-                tension: 0.4
-              }]
-            },
-            options: {
-              responsive: true,
-              plugins: { legend: { labels: { color: getComputedStyle(document.documentElement).getPropertyValue('--color-text-dark').trim() || '#fff' } } },
-              scales: {
-                x: { ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--color-text-dark').trim() || '#fff' } },
-                y: { ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--color-text-dark').trim() || '#fff' } }
-              }
-            }
-          });
-
-          const ctxPieEl = document.getElementById('userPieChart');
-          if (!ctxPieEl) return;
-          const ctxPie = ctxPieEl.getContext('2d');
-          userPieChart = new Chart(ctxPie, {
-            type: 'pie',
-            data: {
-              labels: [],
-              datasets: [{
-                data: [],
-                backgroundColor: ['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6']
-              }]
-            },
-            options: {
-              responsive: true,
-              plugins: { legend: { labels: { color: getComputedStyle(document.documentElement).getPropertyValue('--color-text-dark').trim() || '#fff' } } }
-            }
-          });
-        },
-        update(filtered) {
-          const totalPerUser = {};
-          filtered.forEach(sale => {
-            totalPerUser[sale.user] = (totalPerUser[sale.user] || 0) + sale.value;
-          });
-
-          if (salesChart) {
-            salesChart.data.labels = filtered.map((_, i) => `Venda ${i + 1}`);
-            salesChart.data.datasets[0].data = filtered.map(s => s.value);
-            salesChart.update();
-          }
-
-          if (userPieChart) {
-            userPieChart.data.labels = Object.keys(totalPerUser);
-            userPieChart.data.datasets[0].data = Object.values(totalPerUser);
-            userPieChart.update();
-          }
-        },
-        updateTheme(isDark) {
-          const legendColor = isDark ? getComputedStyle(document.documentElement).getPropertyValue('--color-text-dark').trim() : getComputedStyle(document.documentElement).getPropertyValue('--color-text-light').trim();
-          if (salesChart) {
-            salesChart.options.plugins.legend.labels.color = legendColor;
-            if (salesChart.options.scales && salesChart.options.scales.x) salesChart.options.scales.x.ticks.color = legendColor;
-            if (salesChart.options.scales && salesChart.options.scales.y) salesChart.options.scales.y.ticks.color = legendColor;
-            salesChart.update();
-          }
-          if (userPieChart) {
-            userPieChart.options.plugins.legend.labels.color = legendColor;
-            userPieChart.update();
-          }
-        }
-      };
-
-      const Theme = {
-        toggle() {
-          document.body.classList.toggle('light');
-          const isDark = !document.body.classList.contains('light');
-          localStorage.setItem('theme', isDark ? 'dark' : 'light');
-          Charts.updateTheme(isDark);
-        },
-        load() {
-          const saved = localStorage.getItem('theme');
-          if (saved === 'light') {
-            document.body.classList.add('light');
-          }
-        }
-      };
-
-      const Export = {
-        csv() {
-          if (sales.length === 0) {
-            alert('Nenhuma venda para exportar.');
-            return;
-          }
-          let csv = 'Usuário,Valor,Data\n';
-          sales.forEach(s => {
-            csv += `"${s.user}",${s.value.toFixed(2)},${s.date}\n`;
-          });
-          const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.setAttribute('href', url);
-          link.setAttribute('download', `vendas_${new Date().toISOString().split('T')[0]}.csv`);
-          link.click();
-        }
-      };
-
-      function bindEvents() {
-        DOM.addUserBtn.addEventListener('click', () => {
-          const val = DOM.getUserNameInput().value;
-          if (Users.add(val)) {
-            DOM.getUserNameInput().value = '';
-            DOM.getUserNameInput().focus();
-          }
-        });
-
-        DOM.getUserNameInput().addEventListener('keypress', (e) => {
-          if (e.key === 'Enter') DOM.addUserBtn.click();
-        });
-
-        DOM.addSaleBtn.addEventListener('click', () => {
-          const userIdx = DOM.userSelect.value;
-          const amount = DOM.getSaleAmountInput().value;
-          const date = DOM.getSaleDateInput().value;
-          if (Sales.add(userIdx, amount, date)) {
-            DOM.getSaleAmountInput().value = '';
-            DOM.getSaleDateInput().value = '';
-            DOM.userSelect.focus();
-          }
-        });
-
-        DOM.getSaleAmountInput().addEventListener('keypress', (e) => {
-          if (e.key === 'Enter') DOM.addSaleBtn.click();
-        });
-
-        DOM.filterUser.addEventListener('change', () => Sales.render());
-        DOM.getFilterStart().addEventListener('change', () => Sales.render());
-        DOM.getFilterEnd().addEventListener('change', () => Sales.render());
-
-        DOM.exportBtn.addEventListener('click', () => Export.csv());
-        DOM.toggleThemeBtn.addEventListener('click', () => Theme.toggle());
+    // CSV export with escaping and prevention of CSV injection
+    function exportCSV(){
+      const all = sales.all();
+      if(all.length===0){ Toast.error('Nenhuma venda para exportar'); return; }
+      let csv = ['Usuário,Valor,Data'];
+      for(const s of all){
+        csv.push([ Utils.csvSafeCell(s.user), s.value.toFixed(2), s.date ].join(','));
       }
+      const blob = new Blob([csv.join('\n')], { type:'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = `vendas_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      Toast.success('Exportado com sucesso');
+    }
 
-      return {
-        init() {
-          Storage.load();
-          Theme.load();
-          Charts.init();
-          bindEvents();
-          Users.render();
-          Sales.render();
-        }
-      };
-    })();
+    // Event bindings
+    function bind(){
+      dom.addUserBtn.addEventListener('click', ()=> {
+        const v = dom.userName.value;
+        const res = users.add(v);
+        if(res.ok){ dom.userName.value=''; renderUsers(); Toast.success('Usuário adicionado'); dom.userName.focus(); }
+        else if(res.reason==='exists') Toast.error('Usuário já existe');
+        else Toast.error('Nome inválido');
+      });
+      dom.userName.addEventListener('keypress', (e)=> { if(e.key==='Enter') dom.addUserBtn.click(); });
 
-    document.addEventListener('DOMContentLoaded', () => {
-      DashboardApp.init();
-    });
-  </script>
-</body>
-</html>
-    document.addEventListener('DOMContentLoaded', () => {
-      DashboardApp.init();
-    });
+      dom.addSaleBtn.addEventListener('click', ()=> {
+        const userIdx = dom.userSelect.value; const user = dom.userSelect.options[dom.userSelect.selectedIndex]?.text || '';
+        const amt = parseFloat(dom.saleAmount.value);
+        const date = dom.saleDate.value || new Date().toISOString().slice(0,10);
+        const res = sales.add({ user, value: amt, date });
+        if(res.ok){ dom.saleAmount.value=''; dom.saleDate.value=''; renderSales(); Toast.success('Venda adicionada'); }
+        else Toast.error('Venda inválida');
+      });
+
+      dom.filterUser.addEventListener('change', renderSales);
+      dom.filterStart.addEventListener('change', renderSales);
+      dom.filterEnd.addEventListener('change', renderSales);
+
+      dom.exportBtn.addEventListener('click', exportCSV);
+      dom.toggleTheme.addEventListener('click', ()=> { document.body.classList.toggle('light'); ChartManager.updateTheme?.( !document.body.classList.contains('light') ); });
+
+      // keyboard accessibility for table actions delegated (optional)
+      dom.salesTableBody.addEventListener('keydown', (e)=> { if(e.key==='Enter' && e.target.matches('button')) e.target.click(); });
+    }
+
+    return {
+      async init(){
+        await initCharts();
+        renderUsers();
+        renderSales();
+        bind();
+      },
+      // exported for tests
+      _services: { users, sales, storage }
+    };
+  })();
+
+  // init
+  document.addEventListener('DOMContentLoaded', () => { App.init().catch(err=>console.error(err)); });
+
   </script>
 </body>
 </html>
